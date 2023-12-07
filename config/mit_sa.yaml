@@ -1,0 +1,55 @@
+# Vocab building
+save_data: ../USPTO_MIT_TOKENIZED/MIT_separated_augm/run/chem_pred
+src_vocab: ../USPTO_MIT_TOKENIZED/MIT_separated_augm/run/chem_pred.vocab.src
+tgt_vocab: ../USPTO_MIT_TOKENIZED/MIT_separated_augm/run/chem_pred.vocab.tgt
+overwrite: False
+
+data:
+    corpus_1:
+        path_src: ../USPTO_MIT_TOKENIZED/MIT_separated_augm/src-train.txt
+        path_tgt: ../USPTO_MIT_TOKENIZED/MIT_separated_augm/tgt-train.txt
+    valid:
+        path_src: ../USPTO_MIT_TOKENIZED/MIT_separated_augm/src-val.txt
+        path_tgt: ../USPTO_MIT_TOKENIZED/MIT_separated_augm/tgt-val.txt
+
+# Training
+save_model: models/MIT_separated_augm
+save_checkpoint_steps: 10000
+keep_checkpoint: 20
+seed: 42
+train_steps: 500000
+valid_steps: 10000
+warmup_steps: 8000
+report_every: 1000
+
+decoder_type: transformer
+encoder_type: transformer
+word_vec_size: 256
+hidden_size: 256
+layers: 4
+transformer_ff: 2048
+heads: 8
+
+accum_count: 4
+optim: adam
+adam_beta1: 0.9
+adam_beta2: 0.998
+decay_method: noam
+learning_rate: 2.0
+max_grad_norm: 0.0
+
+batch_size: 4096
+batch_type: tokens
+normalization: tokens
+dropout: 0.1
+label_smoothing: 0.0
+
+param_init: 0.0
+param_init_glorot: 'true'
+position_encoding: 'true'
+
+world_size: 1
+gpu_ranks: 
+    - 0
+
+

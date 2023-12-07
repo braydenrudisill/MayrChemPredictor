@@ -112,6 +112,12 @@ def _add_logging_opts(parser, is_train=True):
             help="Log directory for Tensorboard. " "This is also the name of the run.",
         )
         group.add(
+            "--wandb",
+            "-wandb",
+            action="store_true",
+            help="Use wandb for visualization during training. ",
+        )
+        group.add(
             "--override_opts",
             "-override-opts",
             action="store_true",

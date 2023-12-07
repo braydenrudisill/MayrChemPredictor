@@ -1,0 +1,64 @@
+# Vocab building
+save_data: ../data/new_mayr_data_09-19-23/preprocessed_augm_2x/run/chem_pred
+src_vocab: ../data/new_mayr_data_09-19-23/preprocessed_augm_2x/run/chem_pred.vocab.src
+new_src_vocab: /baldig/chemistry/2023_rp/mirana_data/split/vocab.txt
+tgt_vocab: ../data/new_mayr_data_09-19-23/preprocessed_augm_2x/run/chem_pred.vocab.tgt
+new_tgt_vocab: /baldig/chemistry/2023_rp/mirana_data/split/vocab.txt
+overwrite: False
+
+data:
+    corpus_1:
+        path_src: /baldig/chemistry/2023_rp/mirana_data/split/train_src.txt
+        path_tgt: /baldig/chemistry/2023_rp/mirana_data/split/train_tgt.txt
+    valid:
+        path_src: /baldig/chemistry/2023_rp/mirana_data/split/valid_src.txt
+        path_tgt: /baldig/chemistry/2023_rp/mirana_data/split/valid_tgt.txt
+
+# Training
+train_from: "models/mayr_augm_23_12_2/mayr_augm_23_12_2_step_20000.pt"
+save_model: models/fine_tuning_23_12_5/models
+save_checkpoint_steps: 1000
+keep_checkpoint: 20
+seed: 42
+train_steps: 200000
+valid_steps: 10000
+warmup_steps: 8000
+report_every: 100
+
+decoder_type: transformer
+encoder_type: transformer
+word_vec_size: 256
+hidden_size: 256
+layers: 6
+transformer_ff: 2048
+heads: 8
+
+accum_count: 8
+optim: adam
+adam_beta1: 0.9
+adam_beta2: 0.998
+decay_method: noam
+learning_rate: 2.0
+max_grad_norm: 0.0
+
+bucket_size: 20000
+batch_size: 4096
+batch_type: tokens
+normalization: tokens
+
+dropout: [0.1]
+label_smoothing: 0.0
+
+param_init: 0.0
+param_init_glorot: 'true'
+position_encoding: 'true'
+
+world_size: 1
+gpu_ranks: [0]
+
+# LoRa
+lora_layers: ['linear_values', 'linear_query', 'linear_keys', 'final_linear']
+lora_rank: 4
+lora_dropout: 0.0
+lora_alpha: 1
+lora_embedding: false
